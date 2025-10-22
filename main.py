@@ -9,8 +9,10 @@ from source.utils.Constants import SESSION_FOLDER_PATH, RESOURCE_FILE_PATH, MEDI
 
 console = Terminal.console
 
-#TODO Add documentation
-#TODO Add logging
+# TODO Add documentation
+# TODO Add logging
+
+
 async def shutdown(loop, signal=None):
     if signal:
         print(f"Received exit signal {signal.name}...")
@@ -28,17 +30,21 @@ def main():
     os.makedirs(MEDIA_FOLDER_PATH, exist_ok=True)
     os.makedirs(SESSION_FOLDER_PATH, exist_ok=True)
     bot = Bot()
+    loop = None
     try:
-        loop = asyncio.get_event_loop()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         if sys.platform != 'win32':
             signals = (signal.SIGINT, signal.SIGTERM)
             for s in signals:
-                loop.add_signal_handler(s, lambda a=s: asyncio.create_task(shutdown(loop, signal=s)))
+                loop.add_signal_handler(
+                    s, lambda a=s: asyncio.create_task(shutdown(loop, signal=s)))
         loop.run_until_complete(bot.start())
     except Exception as e:
         console.print(f"[bold red]Error:[/bold red] {e}")
     finally:
-        loop.close()
+        if loop and not loop.is_closed():
+            loop.close()
 
 
 if __name__ == "__main__":
