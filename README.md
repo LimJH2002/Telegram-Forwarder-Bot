@@ -34,7 +34,7 @@ A powerful Python-based Telegram bot that enables automated message forwarding b
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/MohammadShabib/Telegram-Forwarder-Bot.git
+   git clone https://github.com/LimJH2002/Telegram-Forwarder-Bot.git
    cd Telegram-Forwarder-Bot
    ```
 
